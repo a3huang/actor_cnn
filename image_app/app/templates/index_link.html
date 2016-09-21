@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block body %}
+  <div id="screen">
+  </div> 
+  
+  <div class="input-method">
+  <h4> Link to a picture </h4>
+  <form method="POST" action="/" id="myform">
+    {{ form.hidden_tag() }}
+    <div>
+        {{ form.url(size=45, placeholder='Enter Image URL') }}
+    </div>
+    <div class="row">
+      <button id="link_but" type="submit" class="button-primary">Submit</button>
+      <button onClick="reloadPage();">Clear</button>
+    </div>
+  </form>
+  </div>
+{% endblock body %}
+
+{% block js %}
+<script>
+  document.getElementById("link_but").addEventListener("click", function() {
+    $('#screen').show();
+    $('.input-method').hide();
+  });
+</script>
+{% endblock %}

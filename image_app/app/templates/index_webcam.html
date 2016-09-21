@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+
+{% block body %}
+  <div id="screen">
+  </div>
+  
+  <div class="input-method">
+  <h4> Take a picture </h4>
+    <div>
+      <div>
+        <div class="vid-but">
+          <video id="video" width="200" height="200"></video>
+          <button id="snapButton">Snap Photo</button>
+        </div class="canv">
+        <div>
+          <canvas id="canvas" width="200" height="200"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div id="spin">
+      </div>
+    </div>
+  
+  </div>
+{% endblock body %}
+
+{% block js %}
+  <script type="text/javascript">
+  var video = document.getElementById('video');
+
+  // get access to camera
+  if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+    navigator.mediaDevices.getUserMedia({ video: true }).then(function(stream) {
+        video.src = window.URL.createObjectURL(stream);
+        video.play();
+    });
+  }
+
+  var canvas = document.getElementById('canvas');
+  var context = canvas.getContext('2d');
+  var video = document.getElementById('video');
+
+  // take photo
+  document.getElementById("snapButton").addEventListener("click", function() {
+    context.drawImage(video, 10, -10, 200, 200);
+    var dataURL = canvas.toDataURL();
+    var response = { url: dataURL };
+        
+    // show screensaver while loading
+    $('#screen').show();
+    $('.input-method').hide();
+    
+    // post photo url to server and obtain prediction upon success
+    $.ajax({
+     type: 'POST',
+     url: '/index_webcam.html',
+     data: JSON.stringify(response),
+     dataType: 'json',
+     contentType: 'application/json; charset=utf-8',
+     success: function(result) {
+                console.log("success result", result)
+                window.location = '/predict?mode=upload_cam'
+              }
+     });
+  });
+  </script>
+{% endblock js %}

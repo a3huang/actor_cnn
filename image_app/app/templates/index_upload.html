@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block body %}
+  <div id="screen">
+  </div>
+  
+  <div class="input-method">
+  <h4> Import a picture </h4>
+  <form method="POST" action="/upload" enctype="multipart/form-data">
+    <input type="file" name="file">
+    <input id="upload_pic" type="submit" value="Upload">
+  </form>
+  </div>
+{% endblock body %}
+
+{% block js %}
+  <script>
+  document.getElementById("upload_pic").addEventListener("click", function() {
+    $('#screen').show();
+    $('.input-method').hide();
+  });
+  </script>
+{% endblock %}

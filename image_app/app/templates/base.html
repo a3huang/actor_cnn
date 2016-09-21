@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <style>
+    #spin {
+      position: relative;
+    }
+
+    #snapButton {
+     position: relative;
+     width: 200px;
+     padding: 0;
+     top: 150px;
+     left: -200px;
+    }
+
+    #canvas {
+      position: relative;
+      left: 210px;
+      top: -15px;   
+    }
+    
+    #screen {
+      width: 100%;
+      height: 300px;
+      background-image: url('http://www.owlhatworld.com/wp-content/uploads/2015/12/1.gif');
+      display: none;
+    }
+
+    .full-container {      
+      margin: auto;
+    }
+        
+    .results {
+      width: 800px;    
+      margin: 0 auto 0 auto;
+      display: block;
+    }
+ 
+    .vid-but {
+        position: absolute;
+    }
+
+    #video {
+      position: relative; 
+      float: left;
+      left: 0; 
+      top: 0;
+      width: 200px;
+      margin-top: -10%;
+      margin-bottom: -20%;
+    }
+
+    .input-method {
+      width: 600px;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      margin: auto;
+      margin-top: 2%;
+    }
+
+    .header {
+      background: #293f50;
+      color: #fff;
+      font: 300 16px/22px "Lato", "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+      width: 100%;
+      padding-bottom: 2%;
+      padding-top: 2%;
+    }
+            
+    div.row {
+      margin: auto;
+    }
+    
+    div.pic {
+      width: 200px;
+      height: 200px;
+    }
+    
+    /* Dropdown Button */
+	.dropbtn {
+		background-color: #4CAF50;
+		color: white;
+		padding: 3px 10px 3px 10px;
+		font-size: 16px;
+		border: none;
+		cursor: pointer;
+        width: 20em;
+        height: 5em;
+	}
+
+	/* The container div - needed to position the dropdown content */
+	.dropdown {
+		position: relative;
+		display: inline-block;
+      	left: 50%;
+        margin-left: -150px;
+	}
+
+    .menu {
+        margin-bottom: -30px;
+    }
+
+	/* Dropdown Content (Hidden by Default) */
+	.dropdown-content {
+		display: none;
+		position: absolute;
+		background-color: #f9f9f9;
+		width: 100%;
+        overflow: auto;
+		box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+	}
+
+	/* Links inside the dropdown */
+	.dropdown-content a {
+		color: black;
+		padding: 12px 16px;
+		text-decoration: none;
+		display: block;
+	}
+
+	/* Change color of dropdown links on hover */
+	.dropdown-content a:hover {background-color: #f1f1f1}
+
+	/* Show the dropdown menu on hover */
+	.dropdown:hover .dropdown-content {
+		display: block;
+	}
+
+	/* Change the background color of the dropdown button when the dropdown content is shown */
+	.dropdown:hover .dropbtn {
+		background-color: #3e8e41;
+    }
+    </style>
+    
+    <title>{% block title %}Celebrity Detector{% endblock title %}</title>
+    
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/4.1.1/normalize.css">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.css">
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="http://spin.js.org/spin.js"></script>
+    <script src="http://spin.js.org/jquery.spin.js"></script>
+    
+    {% block header %}{% endblock header %}
+  
+  </head>
+    
+  <body>
+  <div class="full-container">
+  <section class="header">
+    <h1 class="title" style="text-align:center"> Celebrity Detector</h1>
+    <h5 style="text-align:center"> Greetings! I am Cele-Bot 5000. With my advanced neural network, 
+                                   I can detect a select number of celebrities in photos. </h5>
+    <h4 style="text-align:center"> Use your favorite method to input a picture. </h4>
+    <div class="menu">
+    <ul>
+    <li class="dropdown">
+    <button class="dropbtn">Choose Method</button>
+    <div class="dropdown-content">
+    <a id="ind_link"> Paste Link </a>
+    <a id="up_link" href="#">Upload Pic </a>
+    <a id="cam_link" href="#">Take Pic </a>
+    </div>
+    </li>
+    </ul>
+	</div>
+
+	<h4 style="text-align:center"> These are the 10 people I can recognize. </h4>
+    <div class="row" style="margin-left:10%">
+    <div class="two columns"></div>
+    {% for i in range(5) %}
+      <div class="two columns">
+         <img src="{{ url_for('static', filename=i ~ '.jpg') }}"/>
+      </div>
+    {% endfor %}
+    </div>
+    
+    <div class="row" style="margin-left:10%">
+    <div class="two columns"></div>
+    {% for i in range(5,10) %}
+      <div class="two columns">
+        <img src="{{ url_for('static', filename=i ~ '.jpg') }}"/>
+      </div>
+    {% endfor %}
+    </div>
+  </section>
+
+  {% block body %}{% endblock body %}
+  
+  </div>
+      
+  <script>
+    $('#up_link').click(function(){
+      window.location = '/index_upload.html'
+    });
+    $('#ind_link').click(function(){
+      window.location = '/index_link.html'
+    });
+    $('#cam_link').click(function(){
+      window.location = '/index_webcam.html'
+    });
+  </script>
+      
+  {% block js %}{% endblock js %}
+
+  </body>
+
+</html>

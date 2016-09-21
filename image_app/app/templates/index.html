@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+
+{% block body %}
+  <div class="results">  
+    {% if data and url %}
+      
+      {% if own %}
+      <div class="row">
+        <h3> Thank you for your submission! </h3>
+        <div class="three columns">
+          <img src="{{ url_for('static', filename='temp.jpg') + random_qstr }}" style="width:150px;height:150px"/>
+        </div>
+      </div>
+      <h3> Here are 3 people I think you look like: </h3>
+      <div class="row">
+        {% for node in data %}
+        <div class="three columns">
+          <img src="{{ url_for('static', filename=node['image'] + '.jpg') }}"/>
+          <h3> {{ node["name"] }} </h3>
+          <h3> {{ node["prob"] }} </h3>
+        </div>
+        {% endfor %}
+      </div>   
+      
+      {% elif up %}
+      <div class="row">
+        <h3> Thank you for your submission! </h3>
+        <div class="three columns">
+          <img src="{{ url_for('static', filename='temp.jpg') + random_qstr }}" style="width:150px;height:150px"/>
+        </div>
+      </div>
+      <h3> Here are my top 3 guesses: </h3>
+      <div class="row">
+        {% for node in data %}
+        <div class="three columns">
+          <img src="{{ url_for('static', filename=node['image'] + '.jpg') }}"/>
+          <h3> {{ node["name"] }} </h3>
+          <h3> {{ node["prob"] }} </h3>
+        </div>
+        {% endfor %}
+      </div>
+      
+      {% else %}
+      <div class="row">
+        <h3> Thank you for your submission! </h3>
+        <div class="three columns">
+          <img src="{{ url }}" style="width:150px;height:150px"/>
+        </div>
+      </div>
+      <h3> Here are my top 3 guesses: </h3>
+      <div class="row">
+        {% for node in data %}
+        <div class="three columns">
+          <img src="{{ url_for('static', filename=node['image'] + '.jpg') }}"/>
+          <h3> {{ node["name"] }} </h3>
+          <h3> {{ node["prob"] }} </h3>
+        </div>
+        {% endfor %}
+      </div>
+      {% endif %}
+
+    {% endif %}
+  </div>
+{% endblock body %}
+
+{% block js %}
+  <script type="text/javascript">
+  function reloadPage() {
+      document.getElementById("url").value = "";
+      document.getElementById('myform').submit();
+  };  
+  </script>
+{% endblock js %}
