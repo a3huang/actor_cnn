@@ -74,45 +74,6 @@ def index_upload():
 
     return render_template('index_upload.html')
 
-
-
-# @app.route('/webcam', methods=['GET', 'POST'])
-# def take_pic():
-#     if request.method == 'POST':
-#         r = request.get_json()
-#         #import pdb; pdb.set_trace()
-#         #print r
-#         url = r['url'] + "="
-#         #print url
-#         #print json.loads(r)
-#         #url = json.loads(r)['url']
-#         url = url[22:]
-
-#         path = "app/static/temp.jpg"
-#         binary_data = a2b_base64(url)
-#         with open(path, 'wb') as f:
-#             f.write(binary_data)
-        
-#         print "i'm in the take_pic() function"
-#         return jsonify({"result": "hello world"})
-#         #return redirect(url_for("predict", mode="upload"))
-
-#     return redirect(url_for("index"))
-
-# @app.route('/upload', methods=['GET', 'POST'])
-# def upload_file():
-#     if request.method == 'POST':
-#         f = request.files['file']
-#         path = "app/static/temp.jpg"
-        
-#         if os.path.isfile(path):
-#             os.remove(path)
-#         f.save(path)
-        
-#         return redirect(url_for('predict', mode='upload'))
-    
-#     return redirect(url_for('index'))
-
 @app.route('/predict', methods=['GET', 'POST'])
 def predict():
     form = InputForm()
@@ -149,7 +110,7 @@ def predict():
             print "No image!"
 
     try:
-	    # read in image
+	# read in image
         im = cv2.resize(im, (224,224)).astype(np.float32)
         im[:,:,0] -= 103.939
         im[:,:,1] -= 116.779
@@ -157,7 +118,7 @@ def predict():
         im = im.transpose((2,0,1))
         im = np.expand_dims(im, axis=0)
 
-	    # make prediction
+	# make prediction
         sgd = SGD(lr=0.1, decay=1e-6, momentum=0.9, nesterov=True)
         model.compile(optimizer=sgd, loss='categorical_crossentropy')
         out = model.predict(im)[0]
